@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  db:
+    container_name: postgresDockerizado
+    image: postgres:12.10-alpine
+    volumes:
+      - postgresDockerizado_db:/var/lib/postgresql/data
+    command: --default-authentication-plugin=postgresql_native_password
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD= 120021
+      - POSTGRES_USER= root
+      - POSTGRES_DB= projetoFinal
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    ports:
+      - 5432:5432
+
+volumes:
+  postgresDockerizado_db: {}
