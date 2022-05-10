@@ -27,11 +27,6 @@ spring:
     username: postgres
     password: 120021
 
-  management:
-    security:
-      enabled: false  #disable the spring security on the management endpoints like /env, /refresh etc.
 
-  logging:
-    level:
-      com.example.howtodoinjava: DEBUG
+
 
