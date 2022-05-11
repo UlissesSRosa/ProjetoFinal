@@ -1,28 +1,21 @@
 server:
-   port: 8080
+  port: 8080
 
 eureka:
-   instance:
-      hostname: localhost
-   client:
-      service-url:
-         defaultZone: http://localhost:8761/eureka
-      fetch-registry: true
-      register-with-eureka: true
-
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    hostname: localhost
+#  spring.main.web-application-type=reactive
 spring:
-   application:
-      name: gateway
-   main:
-      web-application-type: reactive   
-   cloud:
+  application:
+    name: gateway
+    cloud:
       gateway:
-         routes:
-         - id: MANAGEMENT-SERVICE
-           uri: lb://MANAGEMENT-SERVICE
-           predicates:
-           - Path=/management/**
-         - id: USER-SERVICE
-           uri: lb://USER-SERVICE
-           predicates:
-           - Path=/user/**
+        routes:
+          - id: managementService
+            uri: lb://MANAGEMENT-SERVICE
+            predicates:
+              - Path=/management-service/***

@@ -1,15 +1,17 @@
 server:
+  servlet:
+    context-path: /management-service
   port: 8082
 
 eureka:
-  instance:
-    hostname: localhost
-    prefer-ip-address: true
   client:
-    service-url:
+    serviceUrl:
       defaultZone: http://localhost:8761/eureka/
     fetch-registry: true
     register-with-eureka: true
+    instance:
+    prefer-ip-address: true
+    hostname: localhost
 
 spring:
   application:

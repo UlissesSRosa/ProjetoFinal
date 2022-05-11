@@ -2,72 +2,56 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<parent>
-        <groupId>com.example</groupId>
-        <artifactId>projeto-final-microservices</artifactId>
-        <version>1.0-SNAPSHOT</version>
-        <relativePath>../</relativePath>
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.3</version>
+        <relativePath/> <!-- lookup parent from repository -->
     </parent>
-
-	<artifactId>discovery</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-	<name>discovery</name>
-	<description>TechStore Discovery Server</description>
-
-	<properties>
-		<java.version>11</java.version>
-		<jaxb-api.version>2.3.1</jaxb-api.version>
-<!-- 		<javax-activation.version>1.1.1</javax-activation.version> -->
-		<jaxb-runtime.version>2.3.1</jaxb-runtime.version>
-	</properties>
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-		</dependency>
-		<dependency>
-		    <groupId>javax.xml.bind</groupId>
-		    <artifactId>jaxb-api</artifactId>
-		    <version>${jaxb-api.version}</version>
-		</dependency>
-<!--         <dependency> -->
-<!--             <groupId>javax.activation</groupId> -->
-<!--             <artifactId>activation</artifactId> -->
-<!--             <version>${javax-activation.version}</version> -->
-<!--         </dependency> -->
+    <groupId>com.demo</groupId>
+    <artifactId>discoveryserver</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>discoveryserver</name>
+    <description>Microservice eureka server</description>
+    <properties>
+        <java.version>11</java.version>
+        <spring-cloud.version>2020.0.1</spring-cloud.version>
+    </properties>
+    <dependencies>
+    <!-- <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+        </dependency> -->
         <dependency>
-            <groupId>org.glassfish.jaxb</groupId>
-            <artifactId>jaxb-runtime</artifactId>
-            <version>${jaxb-runtime.version}</version>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
+
         <dependency>
-          <groupId>com.sun.jersey.contribs</groupId>
-          <artifactId>jersey-apache-client4</artifactId>
-          <version>1.19.4</version>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
-	</dependencies>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-
-	<build>
-        <finalName>discovery</finalName>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <executable>true</executable>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
-                <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                </configuration>
             </plugin>
         </plugins>
-	</build>
+    </build>
 
 </project>
