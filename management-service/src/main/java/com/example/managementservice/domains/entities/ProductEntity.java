@@ -14,7 +14,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "products", schema = "store", uniqueConstraints = { @UniqueConstraint(columnNames = {"name", "category_id"})})
+@Table(name = "products", schema = "store", uniqueConstraints = { @UniqueConstraint(columnNames = {"name", "categoryId"})})
 public class ProductEntity extends BaseEntityModel implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -9,5 +9,5 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     ProductEntity findByNameLike(String name);
 
-    Page<ProductEntity> findAllPageable(Pageable pageable);
+    Page<ProductEntity> findAll(Pageable pageable);
 }

@@ -28,7 +28,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     public Page<ProductDTO> findAll(Pageable pageable){
-        Page<ProductEntity> productEntityPage = productRepository.findAllPageable(pageable);
+        Page<ProductEntity> productEntityPage = productRepository.findAll(pageable);
         return objectMapper.convertValue(productEntityPage.getContent(), new TypeReference<Page<ProductDTO>>() {
         });
     }

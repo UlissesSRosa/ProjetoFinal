@@ -22,9 +22,9 @@ public class ShoppingCartEntity extends BaseEntityModel implements Serializable 
 
     private static final long serialVersionUID = 1L;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "userId")
-    private UserEntity userEntity;
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    @JoinColumn(name = "userId")
+//    private UserEntity userEntity;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<ProductEntity> products;
