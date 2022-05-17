@@ -6,17 +6,18 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@ToString
 @Data
+@ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
-@Table(name = "products", schema = "store", uniqueConstraints = { @UniqueConstraint(columnNames = {"name", "categoryId"})})
-public class ProductEntity extends BaseEntityModel implements Serializable {
+@Table(name = "users", schema = "authentication", uniqueConstraints = { @UniqueConstraint(columnNames = {"name", "email"})})
+public class UserEntity extends BaseEntityModel implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,22 +25,21 @@ public class ProductEntity extends BaseEntityModel implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private String description;
+    private String email;
 
     @Column(nullable = false)
-    private Long price;
+    private String cpf;
 
     @Column(nullable = false)
-    private int stock;
+    private String password;
 
-    @Column(nullable = false)
-    private String url_image;
+    private String phone;
 
-    @Column(nullable = false)
-    private Long weigth;
+    @OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<AdressEntity> adress;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
-    private CategoryEntity categoryId;
+    @JoinColumn(name = "roleId")
+    private RoleEntity role;
 
 }

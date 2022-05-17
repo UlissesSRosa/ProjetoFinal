@@ -1,9 +1,11 @@
 package com.example.managementservice.domains.dtos;
 
+import com.example.managementservice.domains.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 @Data
 @Builder
@@ -11,26 +13,24 @@ import javax.validation.constraints.NotBlank;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class ProductDTO {
+public class ShoppingCartDTO {
 
     @NotBlank
-    private String name;
+    private Long cartId;
 
     @NotBlank
-    private String description;
+    private List<ProductDTO> products;
 
     @NotBlank
-    private Long price;
+    private OrderStatus status;
 
     @NotBlank
-    private int stock;
+    private Long payableAmount;
 
     @NotBlank
-    private String url_image;
+    private Long totalAmount;
 
     @NotBlank
-    private Long weigth;
+    private Long userId;
 
-    @NotBlank
-    private Long categoryId;
 }

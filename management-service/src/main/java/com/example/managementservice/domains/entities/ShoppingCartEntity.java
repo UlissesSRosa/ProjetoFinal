@@ -1,6 +1,7 @@
 package com.example.managementservice.domains.entities;
 
 
+import com.example.managementservice.domains.dtos.UserDTO;
 import com.example.managementservice.domains.enums.OrderStatus;
 import com.example.managementservice.domains.models.BaseEntityModel;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -14,6 +15,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Data
 @EqualsAndHashCode(callSuper = true)
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -22,9 +24,6 @@ public class ShoppingCartEntity extends BaseEntityModel implements Serializable 
 
     private static final long serialVersionUID = 1L;
 
-//    @ManyToOne(fetch = FetchType.EAGER)
-//    @JoinColumn(name = "userId")
-//    private UserEntity userEntity;
 
     @OneToMany(fetch = FetchType.EAGER)
     private List<ProductEntity> products;
@@ -32,10 +31,14 @@ public class ShoppingCartEntity extends BaseEntityModel implements Serializable 
     @Column(nullable = false)
     private OrderStatus status;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Long payableAmount;
 
     @Column(nullable = false)
     private Long totalAmount;
+
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    private UserEntity user;
 
 }
