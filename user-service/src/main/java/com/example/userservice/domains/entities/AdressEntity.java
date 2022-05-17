@@ -27,7 +27,6 @@ import lombok.ToString;
 @ToString
 @JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "adress", schema = "authentication")
-//@Table(name = "adress", schema = "store", uniqueConstraints = { @UniqueConstraint(columnNames = {"name", "email"})})
 public class AdressEntity extends BaseEntityModel implements Serializable {
 	
 	private static final long serialVersionUID = 1L;

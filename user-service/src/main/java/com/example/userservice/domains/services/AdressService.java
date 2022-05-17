@@ -9,4 +9,8 @@ public interface AdressService {
 	public List<AdressDTO> findAllByUserId(Long userId);
 	
 	public void create (AdressDTO adressDTO);
+	
+	public void update (AdressDTO adressDTO);
+	
+	public void delete(Long id);
 }
