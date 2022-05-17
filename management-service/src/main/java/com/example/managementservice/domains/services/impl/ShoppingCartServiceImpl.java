@@ -38,6 +38,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         ProductEntity product = productServiceImpl.findById(shoppingCartRequestDTO.getProductId());
         log.info("Vai busca o user {}", shoppingCartRequestDTO.getUserId());
         shoppingCartEntity.setUser(objectMapper.convertValue(userClient.getUser(shoppingCartRequestDTO.getUserId()), UserEntity.class));
+        log.info("Nome {}", shoppingCartEntity.getUser().getName());
         shoppingCartEntity.getProducts().add(product);
         shoppingCartEntity.setTotalAmount(product.getPrice());
         shoppingCartEntity.setStatus(shoppingCartRequestDTO.getStatus());

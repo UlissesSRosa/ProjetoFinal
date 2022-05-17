@@ -1,5 +1,6 @@
 package com.example.userservice.domains.services.impl;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
 
@@ -54,13 +55,10 @@ public class UserServiceImpl implements UserService {
 		UserEntity user = buildUserEntity(userRequestDTO);
 		UserEntity userSave = userRepository.save(user);
 	}
-
-//	@Transactional
-//	public void update(UserDTO userDTO) {
-//		log.info("MODIFICANDO Usuário {}", userDTO.getName());
-//		UserEntity userEntity = buildUserEntity(userDTO);
-//		userRepository.save(userEntity);
-//	}
+	
+	public List<String> findAllEmails(){
+		return userRepository.findAllEmails();
+	}
 
 	private UserEntity buildUserEntity(UserRequestDTO userRequestDTODTO) {
 		return UserEntity.builder()

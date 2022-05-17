@@ -1,5 +1,7 @@
 package com.example.userservice.domains.resources;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -40,6 +42,11 @@ public class UserResource {
 	public ResponseEntity<Void> create(@RequestBody UserRequestDTO userRequestDTO) {
 		userService.create(userRequestDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	@GetMapping(value = "/allEmails")
+	public ResponseEntity<List<String>> getAllEmails(){
+		return ResponseEntity.ok(userService.findAllEmails());
 	}
 
 }

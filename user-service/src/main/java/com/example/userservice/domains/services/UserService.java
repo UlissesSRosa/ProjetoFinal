@@ -1,5 +1,7 @@
 package com.example.userservice.domains.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -15,4 +17,6 @@ public interface UserService {
     public void create(UserRequestDTO userRequestDTO);
     
 //    public void update(UserDTO userDTO);
+    
+    public List<String> findAllEmails();
 }

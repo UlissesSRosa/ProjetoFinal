@@ -1,12 +1,12 @@
 package com.example.managementservice.domains.clients;
 
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 import com.example.managementservice.domains.dtos.AdressDTO;
 import com.example.managementservice.domains.dtos.RoleDTO;
 import com.example.managementservice.domains.dtos.UserDTO;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @FeignClient(value = "USER-SERVICE")
 public interface UserClient {
