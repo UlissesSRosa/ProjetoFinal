@@ -50,7 +50,7 @@ public class UserEntity extends BaseEntityModel implements Serializable {
 	
 	private String phone;
 	
-	@OneToMany(cascade = CascadeType.REMOVE, orphanRemoval = true, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
 	private List<AdressEntity> adress;
 	
 	@ManyToOne(fetch = FetchType.EAGER)

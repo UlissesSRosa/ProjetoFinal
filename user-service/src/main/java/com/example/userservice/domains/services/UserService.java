@@ -18,5 +18,7 @@ public interface UserService {
     
 //    public void update(UserDTO userDTO);
     
+    public void delete(Long id);
+    
     public List<String> findAllEmails();
 }

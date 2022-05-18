@@ -53,7 +53,12 @@ public class UserServiceImpl implements UserService {
 	public void create(UserRequestDTO userRequestDTO) {	
 		log.info("CRIANDO Usuário {}", userRequestDTO.getName());
 		UserEntity user = buildUserEntity(userRequestDTO);
-		UserEntity userSave = userRepository.save(user);
+		userRepository.save(user);
+	}
+	
+	@Transactional
+	public void delete(Long id) {
+		userRepository.deleteById(id);
 	}
 	
 	public List<String> findAllEmails(){
