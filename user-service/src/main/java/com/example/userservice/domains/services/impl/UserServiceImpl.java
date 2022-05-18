@@ -1,5 +1,6 @@
 package com.example.userservice.domains.services.impl;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.function.Function;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.example.userservice.domains.dtos.requests.UserRequestDTO;
+import com.example.userservice.domains.dtos.requests.UserUpdateDTO;
 import com.example.userservice.domains.dtos.responses.UserDTO;
 import com.example.userservice.domains.entities.RoleEntity;
 import com.example.userservice.domains.entities.UserEntity;
@@ -57,6 +59,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Transactional
+	public void update(UserUpdateDTO userUpdateDTO) {
+		UserEntity currentUser = userRepository.findById(userUpdateDTO.getId()).orElseThrow(NotFoundException::new);
+		UserEntity updatedUser = updateUser(userUpdateDTO, currentUser);
+		userRepository.save(updatedUser);
+ 	}
+
+	@Transactional
 	public void delete(Long id) {
 		userRepository.deleteById(id);
 	}
@@ -65,14 +74,14 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findAllEmails();
 	}
 
-	private UserEntity buildUserEntity(UserRequestDTO userRequestDTODTO) {
+	private UserEntity buildUserEntity(UserRequestDTO userRequestDTO) {
 		return UserEntity.builder()
-				.name(userRequestDTODTO.getName())
-				.email(userRequestDTODTO.getEmail())
-				.phone(userRequestDTODTO.getPhone())
-				.cpf(userRequestDTODTO.getCpf())
-				.password(userRequestDTODTO.getPassword()) // Verificar como criptografar essa senha
-              	.role(objectMapper.convertValue(roleService.findById(userRequestDTODTO.getRoleID()), RoleEntity.class))
+				.name(userRequestDTO.getName())
+				.email(userRequestDTO.getEmail())
+				.phone(userRequestDTO.getPhone())
+				.cpf(userRequestDTO.getCpf())
+				.password(userRequestDTO.getPassword()) // Verificar como criptografar essa senha
+              	.role(objectMapper.convertValue(roleService.findById(userRequestDTO.getRoleID()), RoleEntity.class))
 				.build();
 	}
 	
@@ -83,6 +92,17 @@ public class UserServiceImpl implements UserService {
 			throw new NotFoundException();
 		}
 		return userEntity;
+	}
+	
+	private UserEntity updateUser(UserUpdateDTO userUpdateDTO, UserEntity currentUser) {
+		currentUser.setUpdatedRegister(LocalDateTime.now());
+		currentUser.setName(userUpdateDTO.getName());
+		currentUser.setEmail(userUpdateDTO.getEmail());
+		currentUser.setCpf(userUpdateDTO.getCpf());
+		currentUser.setPassword(userUpdateDTO.getPassword());
+		currentUser.setPhone(userUpdateDTO.getPhone());
+		currentUser.setRole(objectMapper.convertValue(roleService.findById(userUpdateDTO.getRoleID()), RoleEntity.class));
+		return currentUser;
 	}
 	
 	private UserDTO buildUserDTO(UserEntity userEntity) {

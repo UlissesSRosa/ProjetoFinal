@@ -10,11 +10,13 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.userservice.domains.dtos.requests.UserRequestDTO;
+import com.example.userservice.domains.dtos.requests.UserUpdateDTO;
 import com.example.userservice.domains.dtos.responses.UserDTO;
 import com.example.userservice.domains.services.UserService;
 
@@ -43,6 +45,12 @@ public class UserResource {
 	public ResponseEntity<Void> create(@RequestBody UserRequestDTO userRequestDTO) {
 		userService.create(userRequestDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+	
+	@PutMapping
+	public ResponseEntity<Void> update(@RequestBody UserUpdateDTO userUpdateDTO){
+		userService.update(userUpdateDTO);
+		return ResponseEntity.ok().build();
 	}
 	
 	@DeleteMapping(value = "/{id}")
