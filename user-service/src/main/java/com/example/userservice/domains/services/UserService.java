@@ -1,17 +1,13 @@
 package com.example.userservice.domains.services;
 
-<<<<<<< HEAD
-import com.example.userservice.domains.entities.UserEntity;
-=======
-import java.util.List;
-
->>>>>>> 76d06f804e8636a60fa7c1f8ecaa3b95479d2348
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import com.example.userservice.domains.dtos.requests.UserRequestDTO;
 import com.example.userservice.domains.dtos.requests.UserUpdateDTO;
 import com.example.userservice.domains.dtos.responses.UserDTO;
+import com.example.userservice.domains.entities.UserEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 public interface UserService {
 	
