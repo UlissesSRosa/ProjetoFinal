@@ -1,11 +1,15 @@
 package com.example.managementservice.domains.dtos.requests;
 
-import com.example.managementservice.domains.dtos.ProductDTO;
+import javax.validation.constraints.NotBlank;
+
 import com.example.managementservice.domains.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.*;
 
-import javax.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @Builder
