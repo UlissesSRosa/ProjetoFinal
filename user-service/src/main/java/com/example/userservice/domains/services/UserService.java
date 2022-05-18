@@ -1,5 +1,6 @@
 package com.example.userservice.domains.services;
 
+import com.example.userservice.domains.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -9,6 +10,8 @@ import com.example.userservice.domains.dtos.responses.UserDTO;
 public interface UserService {
 	
 	public UserDTO findById(Long id);
+
+    public UserEntity findByIdInternal(Long id);
 
     public Page<UserDTO> findAll(Pageable pageable);
 

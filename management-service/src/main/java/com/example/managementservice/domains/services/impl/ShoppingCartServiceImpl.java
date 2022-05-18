@@ -2,6 +2,7 @@ package com.example.managementservice.domains.services.impl;
 
 import com.example.managementservice.domains.clients.UserClient;
 import com.example.managementservice.domains.dtos.ShoppingCartDTO;
+import com.example.managementservice.domains.dtos.UserDTO;
 import com.example.managementservice.domains.dtos.requests.ShoppingCartRequestDTO;
 import com.example.managementservice.domains.entities.ProductEntity;
 import com.example.managementservice.domains.entities.ShoppingCartEntity;
@@ -12,6 +13,7 @@ import com.example.managementservice.domains.services.ShoppingCartService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,13 +36,19 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 
     public void create(ShoppingCartRequestDTO shoppingCartRequestDTO) {
         ShoppingCartEntity shoppingCartEntity = new ShoppingCartEntity();
+        log.info("Registro de carrinho {}, updated carrinho {}", shoppingCartEntity.getRegister(), shoppingCartEntity.getUpdatedRegister());
         log.info("Vai busca o produto {}", shoppingCartRequestDTO.getProductId());
         ProductEntity product = productServiceImpl.findById(shoppingCartRequestDTO.getProductId());
+        log.info("Vai busca o produto nome {} descrição {} preço {}", product.getName(), product.getDescription(), product.getPrice());
         log.info("Vai busca o user {}", shoppingCartRequestDTO.getUserId());
-        shoppingCartEntity.setUser(objectMapper.convertValue(userClient.getUser(shoppingCartRequestDTO.getUserId()), UserEntity.class));
-        shoppingCartEntity.getProducts().add(product);
+        UserEntity user = userClient.getUser(shoppingCartRequestDTO.getUserId());
+        shoppingCartEntity.setUser(user);
+        log.info("Vai busca o user name {}  cpf {}", user.getName(), user.getCpf());
+        log.info("qnt produtos no carrinho {}", shoppingCartEntity.getProducts().size());
         shoppingCartEntity.setTotalAmount(product.getPrice());
         shoppingCartEntity.setStatus(shoppingCartRequestDTO.getStatus());
+        log.info("Status {}", shoppingCartEntity.getStatus());
+        log.info("atributos do carrinho {} {} {} {} {}", shoppingCartEntity.getProducts(), shoppingCartEntity.getStatus(), shoppingCartEntity.getTotalAmount(), shoppingCartEntity.getPayableAmount(), shoppingCartEntity.getUser());
         shoppingCartRespository.save(shoppingCartEntity);
     }
 
