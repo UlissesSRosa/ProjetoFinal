@@ -34,11 +34,7 @@ public class SendCustomerEmailPromotion {
 	
 	@Scheduled(initialDelay = 2000, fixedDelay = HORA)
 	public void sendmail() {
-		log.info("Begin SendCustomerEmailPromotion");
-		
 		List<Map<String, String>> produtos = new ArrayList<>();
-		
-		//Apenas para Teste
 		for(int i = 0; i < 5; i++) {
 			Map<String, String> produto = new HashMap<>();
 			produto.put("nome", "produto"+i);
@@ -51,13 +47,13 @@ public class SendCustomerEmailPromotion {
 		
 		List<String> emails = new ArrayList<>();
 		emails.add("matheus.l.rizzo@gmail.com");
-		emails.add("ulisses.gay@gmail.com");
-		
+		emails.add("ulisses_mano@hotmail.com");
 		sendEmailClient(emails, htmlEmail);
+		
 	}
 
 	private void sendEmailClient(List<String> emails, String htmlEmail) {
-		log.info("Enviando Email List " + emails.toString());
+		log.info("Begin SendCustomerEmailPromotion");
 		Properties props = new Properties();
 	    props.put("mail.smtp.host", "smtp.gmail.com");
 	    props.put("mail.smtp.socketFactory.port", "465");
@@ -78,13 +74,20 @@ public class SendCustomerEmailPromotion {
 	    	Message message = new MimeMessage(session);
 		    message.setFrom(new InternetAddress("techstoreprojeto@gmail.com"));
 		    
-		    String emailsFormatados = emails.toString().replace("[", "").replace("]", "");
-		    log.info("Email Formatado: " + emailsFormatados);
-		    Address[] toUserAddress = InternetAddress.parse(emailsFormatados);
-		    message.setRecipients(Message.RecipientType.TO, toUserAddress);
-		    message.setSubject("Enviando email com JavaMail");
-		    message.setContent(htmlEmail, "text/html");
-		    Transport.send(message);
+		    emails.forEach(email -> {
+		    	log.info("Email: " + email);
+		    	try {
+		    		Address[] toUserAddress = InternetAddress.parse(email);
+				    message.setRecipients(Message.RecipientType.TO, toUserAddress);
+				    message.setSubject("Enviando email com JavaMail");
+				    message.setContent(htmlEmail, "text/html");
+				    Transport.send(message);
+				    log.info("Email enviado com sucesso");
+				} catch (Exception e) {
+					log.error("Erro ao Enviar Email: " + e);
+				}  
+		    });
+		    
 		    log.info("End SendCustomerEmailPromotion");
 		    
 		} catch (Exception e) {
