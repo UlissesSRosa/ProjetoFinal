@@ -22,6 +22,7 @@ import com.example.userservice.domains.services.UserService;
 
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import springfox.documentation.annotations.ApiIgnore;
 
 @RequiredArgsConstructor
 @RestController
@@ -33,6 +34,12 @@ public class UserResource {
 
 	@GetMapping(value = "/{userId}")
 	public ResponseEntity<UserDTO> findOne(@PathVariable Long userId) {
+		return ResponseEntity.ok(userService.findById(userId));
+	}
+
+	@ApiIgnore
+	@GetMapping(value = "/entity/{userId}")
+	public ResponseEntity<UserDTO> findById(@PathVariable Long userId) {
 		return ResponseEntity.ok(userService.findById(userId));
 	}
 

@@ -26,4 +26,7 @@ public class PromotionEntity extends BaseEntityModel implements Serializable {
 
     @Column(nullable = false)
     private Long percent;
+
+    @Column(nullable = false)
+    private Boolean isActive;
 }
