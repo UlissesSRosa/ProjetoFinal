@@ -51,6 +51,7 @@ public class CategoryProductPromotionServiceImpl implements CategoryProductServi
                 .originalPrice(product.getPrice())
                 .promotionalPrice(product.getPrice().subtract(product.getPrice().multiply(category.getPromotion().getPercent().divide(BigDecimal.valueOf(100)))))
                 .urlImage(product.getUrl_image())
+                .percentOff(category.getPromotion().getPercent().toString().concat("%"))
                 .build();
     }
 }

@@ -16,6 +16,7 @@ public class CategoryProductPromotionDTO {
 
     private String productName;
     private String urlImage;
+    private String percentOff;
     private BigDecimal originalPrice;
     private BigDecimal promotionalPrice;
 
