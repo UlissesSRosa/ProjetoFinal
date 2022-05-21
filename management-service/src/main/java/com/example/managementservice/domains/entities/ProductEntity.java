@@ -34,7 +34,7 @@ public class ProductEntity extends BaseEntityModel implements Serializable {
     private int stock;
 
     @Column(nullable = false)
-    private String url_image;
+    private String urlImage;
 
     @Column(nullable = false)
     private Long weigth;

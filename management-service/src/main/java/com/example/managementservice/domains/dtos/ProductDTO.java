@@ -27,7 +27,7 @@ public class ProductDTO {
     private int stock;
 
     @NotBlank
-    private String url_image;
+    private String urlImage;
 
     @NotBlank
     private Long weigth;

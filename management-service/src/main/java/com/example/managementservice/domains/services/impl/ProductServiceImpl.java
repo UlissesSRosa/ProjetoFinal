@@ -49,11 +49,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     public void create(ProductDTO productDTO){
-        ProductEntity product = objectMapper.convertValue(productDTO, ProductEntity.class);
-        productRepository.save(product);
+        productRepository.save(buildProductEntity(productDTO));
     }
 
-    protected ProductEntity convertDTOtoEntity(ProductDTO productDTO){
+    @Transactional
+    public void delete(Long id){
+        productRepository.deleteById(id);
+    }
+
+    protected ProductEntity buildProductEntity(ProductDTO productDTO){
         return ProductEntity.builder()
                 .categoryId(categoryService.findById(productDTO.getCategoryId()))
                 .name(productDTO.getName())
@@ -61,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
                 .price(productDTO.getPrice())
                 .weigth(productDTO.getWeigth())
                 .stock(productDTO.getStock())
-                .url_image(productDTO.getUrl_image())
+                .urlImage(productDTO.getUrlImage())
                 .build();
     }
 
@@ -70,7 +74,7 @@ public class ProductServiceImpl implements ProductService {
                 .description(productEntity.getDescription())
                 .name(productEntity.getName())
                 .stock(productEntity.getStock())
-                .url_image(productEntity.getUrl_image())
+                .urlImage(productEntity.getUrlImage())
                 .weigth(productEntity.getWeigth())
                 .price(productEntity.getPrice())
                 .categoryId(productEntity.getCategoryId().getId())

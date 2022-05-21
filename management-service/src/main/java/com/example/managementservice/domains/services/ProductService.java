@@ -12,7 +12,9 @@ public interface ProductService {
 
     public Page<ProductDTO> findAll(Pageable pageable);
 
+    public List<ProductDTO> findAllByCategoryIn(List<Long> categoryIds);
+
     public void create(ProductDTO productDTO);
 
-    public List<ProductDTO> findAllByCategoryIn(List<Long> categoryIds);
+    public void delete(Long id);
 }
