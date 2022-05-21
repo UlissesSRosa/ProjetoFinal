@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -22,8 +24,19 @@ public class PromotionServiceImpl implements PromotionService {
     private final PromotionRespository promotionRespository;
     private final ObjectMapper objectMapper;
 
+    public Page<PromotionRequestDTO> getAll(Pageable pageable) {
+        Page<PromotionEntity> promotionEntitiesPage = promotionRespository.findByIsActiveTrue(pageable);
+        return objectMapper.convertValue(promotionEntitiesPage.getContent(), new TypeReference<Page<PromotionRequestDTO>>() {
+        });
+    }
+
+    public List<PromotionEntity> getActivePromotions(){
+        return promotionRespository.findAllByIsActiveTrue();
+    }
+
     @Transactional
     public void create(PromotionRequestDTO promotionRequestDTO) {
+        promotionRequestDTO.setPercent((promotionRequestDTO.getPercent()/100));
         promotionRespository.save(objectMapper.convertValue(promotionRequestDTO, PromotionEntity.class));
     }
 
@@ -32,9 +45,4 @@ public class PromotionServiceImpl implements PromotionService {
         promotionRespository.deleteById(id);
     }
 
-    public Page<PromotionRequestDTO> getAll(Pageable pageable) {
-        Page<PromotionEntity> promotionEntitiesPage = promotionRespository.findByIsActiveTrue(pageable);
-        return objectMapper.convertValue(promotionEntitiesPage.getContent(), new TypeReference<Page<PromotionRequestDTO>>() {
-        });
-    }
 }

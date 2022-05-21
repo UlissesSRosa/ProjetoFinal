@@ -9,6 +9,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -32,10 +33,10 @@ public class ShoppingCartEntity extends BaseEntityModel implements Serializable 
     private OrderStatus status;
 
     @Column(nullable = true)
-    private Long payableAmount;
+    private BigDecimal payableAmount;
 
     @Column(nullable = false)
-    private Long totalAmount;
+    private BigDecimal totalAmount;
 
     @ManyToOne
     @JoinColumn(name = "userId")

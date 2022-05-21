@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -25,10 +26,10 @@ public class ShoppingCartDTO {
     private OrderStatus status;
 
     @NotBlank
-    private Long payableAmount;
+    private BigDecimal payableAmount;
 
     @NotBlank
-    private Long totalAmount;
+    private BigDecimal totalAmount;
 
     @NotBlank
     private Long userId;

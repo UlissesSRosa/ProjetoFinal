@@ -15,6 +15,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -40,6 +42,11 @@ public class ProductServiceImpl implements ProductService {
         });
     }
 
+    public List<ProductDTO> findAllByCategoryIn(List<Long> categoryIds){
+        List<ProductEntity> productEntities = productRepository.findProductEntitiesByCategoryIdIn(categoryIds);
+        return productEntities.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
+    }
+
     @Transactional
     public void create(ProductDTO productDTO){
         ProductEntity product = objectMapper.convertValue(productDTO, ProductEntity.class);
@@ -55,6 +62,18 @@ public class ProductServiceImpl implements ProductService {
                 .weigth(productDTO.getWeigth())
                 .stock(productDTO.getStock())
                 .url_image(productDTO.getUrl_image())
+                .build();
+    }
+
+    protected ProductDTO convertEntityToDTO(ProductEntity productEntity){
+        return ProductDTO.builder()
+                .description(productEntity.getDescription())
+                .name(productEntity.getName())
+                .stock(productEntity.getStock())
+                .url_image(productEntity.getUrl_image())
+                .weigth(productEntity.getWeigth())
+                .price(productEntity.getPrice())
+                .categoryId(productEntity.getCategoryId().getId())
                 .build();
     }
 }

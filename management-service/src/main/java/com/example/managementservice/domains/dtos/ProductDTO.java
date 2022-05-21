@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 
 import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -20,7 +21,7 @@ public class ProductDTO {
     private String description;
 
     @NotBlank
-    private Long price;
+    private BigDecimal price;
 
     @NotBlank
     private int stock;

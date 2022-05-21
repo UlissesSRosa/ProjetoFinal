@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -17,5 +20,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     public CategoryEntity findById(Long id){
         return categoryRepository.findById(id).orElseThrow(NotFoundException::new);
+    }
+
+
+    public List<CategoryEntity> findAllEntityByPromotionIn(List<Long> promotionIds){
+        return categoryRepository.findCategoryEntitiesByPromotionIdIn(promotionIds);
     }
 }

@@ -8,7 +8,9 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
+@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -25,7 +27,7 @@ public class PromotionEntity extends BaseEntityModel implements Serializable {
     private String name;
 
     @Column(nullable = false)
-    private Long percent;
+    private BigDecimal percent;
 
     @Column(nullable = false)
     private Boolean isActive;

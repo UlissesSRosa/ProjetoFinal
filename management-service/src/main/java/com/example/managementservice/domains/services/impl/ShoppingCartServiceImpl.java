@@ -57,7 +57,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     public ShoppingCartDTO addProduct(Long cartId, Long productId){
         ShoppingCartEntity cart = shoppingCartRespository.findById(cartId).orElseThrow(NotFoundException::new);
         ProductEntity product = productServiceImpl.findById(productId);
-        cart.setTotalAmount(cart.getTotalAmount() + product.getPrice());
+        cart.setTotalAmount(cart.getTotalAmount().add(product.getPrice()));
         cart.getProducts().add(product);
         return objectMapper.convertValue(shoppingCartRespository.save(cart), ShoppingCartDTO.class);
     }
@@ -66,7 +66,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     public ShoppingCartDTO removeProduct(Long cartId, Long productId){
         ShoppingCartEntity cart = shoppingCartRespository.findById(cartId).orElseThrow(NotFoundException::new);
         ProductEntity product = productServiceImpl.findById(productId);
-        cart.setTotalAmount(cart.getTotalAmount() - product.getPrice());
+        cart.setTotalAmount(cart.getTotalAmount().subtract(product.getPrice()));
         cart.getProducts().remove(product);
         return objectMapper.convertValue(shoppingCartRespository.save(cart), ShoppingCartDTO.class);
     }

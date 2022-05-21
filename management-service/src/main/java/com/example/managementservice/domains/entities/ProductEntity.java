@@ -6,6 +6,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Entity
 @Builder
@@ -27,7 +28,7 @@ public class ProductEntity extends BaseEntityModel implements Serializable {
     private String description;
 
     @Column(nullable = false)
-    private Long price;
+    private BigDecimal price;
 
     @Column(nullable = false)
     private int stock;
