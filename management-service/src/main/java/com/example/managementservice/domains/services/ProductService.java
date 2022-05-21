@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    public ProductDTO findByName(String name);
+    public List<ProductDTO> findByName(String name);
 
     public Page<ProductDTO> findAll(Pageable pageable);
 

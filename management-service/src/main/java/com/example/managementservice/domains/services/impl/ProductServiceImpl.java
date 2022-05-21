@@ -6,7 +6,6 @@ import com.example.managementservice.domains.exceptions.NotFoundException;
 import com.example.managementservice.domains.repositories.ProductRepository;
 import com.example.managementservice.domains.services.CategoryService;
 import com.example.managementservice.domains.services.ProductService;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -31,15 +30,14 @@ public class ProductServiceImpl implements ProductService {
         return productRepository.findById(id).orElseThrow(NotFoundException::new);
     }
 
-    public ProductDTO findByName(String name){
-        ProductEntity productEntity = productRepository.findByNameLike(name);
-        return objectMapper.convertValue(productEntity, ProductDTO.class);
+    public List<ProductDTO> findByName(String name){
+        List<ProductEntity> productEntities = productRepository.findAllByNameContains(name);
+        return productEntities.stream().map(this::convertEntityToDTO).collect(Collectors.toList());
     }
 
     public Page<ProductDTO> findAll(Pageable pageable){
         Page<ProductEntity> productEntityPage = productRepository.findAll(pageable);
-        return objectMapper.convertValue(productEntityPage.getContent(), new TypeReference<Page<ProductDTO>>() {
-        });
+        return productEntityPage.map(this::convertEntityToDTO);
     }
 
     public List<ProductDTO> findAllByCategoryIn(List<Long> categoryIds){

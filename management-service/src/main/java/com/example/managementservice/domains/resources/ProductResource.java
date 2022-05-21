@@ -12,6 +12,8 @@ import com.example.managementservice.domains.services.ProductService;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @RestController
 @Api(tags = "User")
@@ -21,7 +23,7 @@ public class ProductResource {
     private final ProductService productService;
 
     @GetMapping
-    public ResponseEntity<ProductDTO> findAny(@RequestParam String name) {
+    public ResponseEntity<List<ProductDTO>> findAny(@RequestParam String name) {
         return ResponseEntity.ok(productService.findByName(name));
     }
 

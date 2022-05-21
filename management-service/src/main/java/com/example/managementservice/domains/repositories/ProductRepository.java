@@ -10,6 +10,8 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
+    List<ProductEntity> findAllByNameContains(String name);
+
     ProductEntity findByNameLike(String name);
 
     Page<ProductEntity> findAll(Pageable pageable);
