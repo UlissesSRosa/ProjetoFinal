@@ -1,14 +1,18 @@
 package com.example.managementservice.domains.services.impl;
 
 import com.example.managementservice.domains.clients.UserClient;
+import com.example.managementservice.domains.dtos.ProductDTO;
 import com.example.managementservice.domains.dtos.ShoppingCartDTO;
 import com.example.managementservice.domains.dtos.UserDTO;
 import com.example.managementservice.domains.dtos.requests.ShoppingCartRequestDTO;
+import com.example.managementservice.domains.entities.CategoryEntity;
 import com.example.managementservice.domains.entities.ProductEntity;
 import com.example.managementservice.domains.entities.ShoppingCartEntity;
 import com.example.managementservice.domains.entities.UserEntity;
+import com.example.managementservice.domains.enums.OrderStatus;
 import com.example.managementservice.domains.exceptions.NotFoundException;
 import com.example.managementservice.domains.repositories.ShoppingCartRespository;
+import com.example.managementservice.domains.services.CategoryService;
 import com.example.managementservice.domains.services.ShoppingCartService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +21,10 @@ import org.apache.catalina.User;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,6 +34,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     private final ShoppingCartRespository shoppingCartRespository;
     private final ObjectMapper objectMapper;
     private final ProductServiceImpl productServiceImpl;
+    private final CategoryService categoryService;
     private final UserClient userClient;
 
 
@@ -35,20 +44,13 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     }
 
     public void create(ShoppingCartRequestDTO shoppingCartRequestDTO) {
-        ShoppingCartEntity shoppingCartEntity = new ShoppingCartEntity();
-        log.info("Registro de carrinho {}, updated carrinho {}", shoppingCartEntity.getRegister(), shoppingCartEntity.getUpdatedRegister());
-        log.info("Vai busca o produto {}", shoppingCartRequestDTO.getProductId());
         ProductEntity product = productServiceImpl.findById(shoppingCartRequestDTO.getProductId());
-        log.info("Vai busca o produto nome {} descrição {} preço {}", product.getName(), product.getDescription(), product.getPrice());
-        log.info("Vai busca o user {}", shoppingCartRequestDTO.getUserId());
+        ShoppingCartEntity shoppingCartEntity = buildNewCart(product);
         UserEntity user = userClient.getUser(shoppingCartRequestDTO.getUserId());
+        List<ProductEntity> productEntities = new ArrayList<>();
+        productEntities.add(product);
+        shoppingCartEntity.setProducts(productEntities);
         shoppingCartEntity.setUser(user);
-        log.info("Vai busca o user name {}  cpf {}", user.getName(), user.getCpf());
-        log.info("qnt produtos no carrinho {}", shoppingCartEntity.getProducts().size());
-        shoppingCartEntity.setTotalAmount(product.getPrice());
-        shoppingCartEntity.setStatus(shoppingCartRequestDTO.getStatus());
-        log.info("Status {}", shoppingCartEntity.getStatus());
-        log.info("atributos do carrinho {} {} {} {} {}", shoppingCartEntity.getProducts(), shoppingCartEntity.getStatus(), shoppingCartEntity.getTotalAmount(), shoppingCartEntity.getPayableAmount(), shoppingCartEntity.getUser());
         shoppingCartRespository.save(shoppingCartEntity);
     }
 
@@ -57,18 +59,26 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
     public ShoppingCartDTO addProduct(Long cartId, Long productId){
         ShoppingCartEntity cart = shoppingCartRespository.findById(cartId).orElseThrow(NotFoundException::new);
         ProductEntity product = productServiceImpl.findById(productId);
+        CategoryEntity categoryEntity = categoryService.findById(product.getCategoryId().getId());
+        product.getPrice().subtract(product.getPrice().multiply(categoryEntity.getPromotion().getPercent().divide(BigDecimal.valueOf(100))));
+        cart.setPayableAmount(cart.getPayableAmount().add(product.getPrice()));
         cart.setTotalAmount(cart.getTotalAmount().add(product.getPrice()));
         cart.getProducts().add(product);
-        return objectMapper.convertValue(shoppingCartRespository.save(cart), ShoppingCartDTO.class);
+        ShoppingCartEntity newCart = shoppingCartRespository.save(cart);
+        return convertEntityToDTO(newCart);
+
     }
 
     @Transactional
     public ShoppingCartDTO removeProduct(Long cartId, Long productId){
         ShoppingCartEntity cart = shoppingCartRespository.findById(cartId).orElseThrow(NotFoundException::new);
         ProductEntity product = productServiceImpl.findById(productId);
+        CategoryEntity categoryEntity = categoryService.findById(product.getCategoryId().getId());
+        product.getPrice().subtract(product.getPrice().multiply(categoryEntity.getPromotion().getPercent().divide(BigDecimal.valueOf(100))));
         cart.setTotalAmount(cart.getTotalAmount().subtract(product.getPrice()));
         cart.getProducts().remove(product);
-        return objectMapper.convertValue(shoppingCartRespository.save(cart), ShoppingCartDTO.class);
+        ShoppingCartEntity newCart = shoppingCartRespository.save(cart);
+        return convertEntityToDTO(newCart);
     }
 
     @Transactional
@@ -76,8 +86,22 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
         shoppingCartRespository.deleteById(cartId);
     }
 
-//    private ShoppingCartEntity buildNewCart(ShoppingCartRequestDTO shoppingCartRequestDTO){
-//        return ShoppingCartEntity.builder()
-//                .status(shoppingCartRequestDTO.getStatus())
-//    }
+    private ShoppingCartEntity buildNewCart(ProductEntity productEntity){
+        return ShoppingCartEntity.builder()
+                .status(OrderStatus.OPEN)
+                .payableAmount(productEntity.getPrice())
+                .totalAmount(productEntity.getPrice())
+                .build();
+    }
+
+    private ShoppingCartDTO convertEntityToDTO(ShoppingCartEntity shoppingCartEntity){
+        return ShoppingCartDTO.builder()
+                .cartId(shoppingCartEntity.getId())
+                .payableAmount(shoppingCartEntity.getPayableAmount())
+                .totalAmount(shoppingCartEntity.getTotalAmount())
+                .products(shoppingCartEntity.getProducts().stream().map(productServiceImpl::convertEntityToDTO).collect(Collectors.toList()))
+                .status(shoppingCartEntity.getStatus())
+                .userId(shoppingCartEntity.getUser().getId())
+                .build();
+    }
 }

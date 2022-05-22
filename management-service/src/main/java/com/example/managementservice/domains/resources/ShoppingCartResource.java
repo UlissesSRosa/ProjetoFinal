@@ -27,4 +27,20 @@ public class ShoppingCartResource {
         return ResponseEntity.noContent().build();
     }
 
+    @PatchMapping(value = "/add")
+    public ResponseEntity<ShoppingCartDTO> addProduct(@RequestParam Long cartId ,@RequestParam Long productId){
+        return ResponseEntity.ok(shoppingCartService.addProduct(cartId, productId));
+    }
+
+    @PatchMapping(value = "/remove")
+    public ResponseEntity<ShoppingCartDTO> removeProduct(@RequestParam Long cartId ,@RequestParam Long productId){
+        return ResponseEntity.ok(shoppingCartService.removeProduct(cartId, productId));
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        shoppingCartService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
