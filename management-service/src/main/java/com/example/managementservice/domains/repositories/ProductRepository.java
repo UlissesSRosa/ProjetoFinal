@@ -12,8 +12,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
     List<ProductEntity> findAllByNameContains(String name);
 
-    ProductEntity findByNameLike(String name);
-
     Page<ProductEntity> findAll(Pageable pageable);
 
     @Query("select p from ProductEntity p where p.categoryId.id in (:categoryIds)")
