@@ -1,7 +1,6 @@
 package com.example.managementservice.domains.scheduled;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import javax.mail.Address;
@@ -27,8 +26,8 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class SendCustomerEmailPromotion {
 
-	UserClient userClient;
-	CategoryProductService categoryProductService;
+	private final UserClient userClient;
+	private final CategoryProductService categoryProductService;
 	private final long SEGUNDO = 1000;
     private final long MINUTO = SEGUNDO * 60;
     private final long HORA = MINUTO * 60;
@@ -58,8 +57,6 @@ public class SendCustomerEmailPromotion {
                  return new PasswordAuthentication("techstoreprojeto@gmail.com","projeto@2022");
            }
 	    });
-
-	    session.setDebug(true);
 
 	    try {
 	    	Message message = new MimeMessage(session);
@@ -114,7 +111,7 @@ public class SendCustomerEmailPromotion {
 		return htmlInicio.toString();
 	}
 
-	private Object montaMeioHtml(CategoryProductPromotionDTO produto) {
+	private String montaMeioHtml(CategoryProductPromotionDTO produto) {
 		StringBuilder htmlMeio = new StringBuilder();
 		htmlMeio.append("<div class=\"col-md-4 mt-2\"><div class=\"card \" style=\"width: 18rem\"> ");
 		htmlMeio.append("<img class=\"card-img-top\" src=\"$URLIMAGEM\" alt=\"100rem\"/> <div class=\"card-body\"> ");
