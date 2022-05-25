@@ -2,6 +2,7 @@ package com.example.userservice.domains.resources;
 
 import java.util.List;
 
+import com.example.userservice.domains.entities.UserEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -39,8 +40,8 @@ public class UserResource {
 
 	@ApiIgnore
 	@GetMapping(value = "/entity/{userId}")
-	public ResponseEntity<UserDTO> findById(@PathVariable Long userId) {
-		return ResponseEntity.ok(userService.findById(userId));
+	public ResponseEntity<UserEntity> findById(@PathVariable Long userId) {
+		return ResponseEntity.ok(userService.findEntityById(userId));
 	}
 
 	@GetMapping(value = "/all")
@@ -53,22 +54,23 @@ public class UserResource {
 		userService.create(userRequestDTO);
 		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
-	
+
+	@GetMapping(value = "/allEmails")
+	public ResponseEntity<List<String>> getAllEmails(){
+		return ResponseEntity.ok(userService.findAllEmails());
+	}
+
 	@PutMapping
 	public ResponseEntity<Void> update(@RequestBody UserUpdateDTO userUpdateDTO){
 		userService.update(userUpdateDTO);
 		return ResponseEntity.ok().build();
 	}
-	
+
 	@DeleteMapping(value = "/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id){
 		userService.delete(id);
 		return ResponseEntity.ok().build();
 	}
-	
-	@GetMapping(value = "/allEmails")
-	public ResponseEntity<List<String>> getAllEmails(){
-		return ResponseEntity.ok(userService.findAllEmails());
-	}
+
 
 }

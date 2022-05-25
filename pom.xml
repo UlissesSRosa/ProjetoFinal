@@ -17,8 +17,8 @@
 
     <modules>
         <module>management-service</module>
-        <module>core</module>
         <module>user-service</module>
+        <module>order-service</module>
     </modules>
 
     <properties>

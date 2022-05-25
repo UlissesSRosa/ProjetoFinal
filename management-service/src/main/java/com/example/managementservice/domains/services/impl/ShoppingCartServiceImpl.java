@@ -40,7 +40,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService{
 
     public ShoppingCartDTO findById(Long id) {
         ShoppingCartEntity shoppingCartEntity = shoppingCartRespository.findById(id).orElseThrow(NotFoundException::new);
-        return objectMapper.convertValue(shoppingCartEntity, ShoppingCartDTO.class);
+        return convertEntityToDTO(shoppingCartEntity);
     }
 
     public void create(ShoppingCartRequestDTO shoppingCartRequestDTO) {

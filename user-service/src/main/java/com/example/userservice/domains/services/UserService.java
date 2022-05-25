@@ -13,7 +13,7 @@ public interface UserService {
 	
 	public UserDTO findById(Long id);
 
-    public UserEntity findByIdInternal(Long id);
+	public UserEntity findEntityById(Long id);
 
     public Page<UserDTO> findAll(Pageable pageable);
 

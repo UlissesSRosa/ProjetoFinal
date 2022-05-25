@@ -16,7 +16,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@Api(tags = "User")
+@Api(tags = "Management")
 @RequestMapping(value = "v1/products")
 public class ProductResource {
 

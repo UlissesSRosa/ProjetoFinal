@@ -45,10 +45,9 @@ public class UserServiceImpl implements UserService {
 		return buildUserDTO(userEntity);
 	}
 
-	public UserEntity findByIdInternal(Long id) {
+	public UserEntity findEntityById(Long id) {
 		log.info("BUSCANDO O PRODUTO DE ID {} NA BASE DA DADOS", id);
-		UserEntity userEntity = userRepository.findById(id).orElseThrow(NotFoundException::new);
-		return userEntity;
+		return userRepository.findUserEntityById(id).orElseThrow(NotFoundException::new);
 	}
 
 	public Page<UserDTO> findAll(Pageable pageable) {
