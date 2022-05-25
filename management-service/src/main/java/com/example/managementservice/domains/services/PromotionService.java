@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface PromotionService {
 
+    public PromotionEntity findById(Long id);
+
     public Page<PromotionRequestDTO> getAll(Pageable pageable);
 
     public List<PromotionEntity> getActivePromotions();

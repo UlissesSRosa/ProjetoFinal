@@ -24,6 +24,6 @@ public class CategoryEntity extends BaseEntityModel implements Serializable {
     private String name;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "sales_promotion")
+    @JoinColumn(name = "sales_promotion", nullable = true)
     private PromotionEntity promotion;
 }

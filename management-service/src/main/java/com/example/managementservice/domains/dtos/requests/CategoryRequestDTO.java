@@ -1,11 +1,10 @@
 package com.example.managementservice.domains.dtos.requests;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
+import reactor.util.annotation.Nullable;
 
 import javax.validation.constraints.NotBlank;
-import java.math.BigDecimal;
 
 @Data
 @Builder
@@ -13,14 +12,11 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 @ToString
-public class PromotionRequestDTO {
+public class CategoryRequestDTO {
 
     @NotBlank
     private String name;
 
-    @NotBlank
-    private BigDecimal percent;
+    private Long promotionId;
 
-    @NotBlank
-    private Boolean isActive;
 }
