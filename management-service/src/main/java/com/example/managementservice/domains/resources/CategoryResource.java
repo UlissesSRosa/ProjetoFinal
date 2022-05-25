@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@Api(tags = "Management")
+@Api(tags = "Category")
 @RequestMapping(value = "v1/category")
 public class CategoryResource {
 

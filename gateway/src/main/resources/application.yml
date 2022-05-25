@@ -3,6 +3,7 @@ server:
 
 eureka:
    instance:
+#     prefer-ip-address: true
       hostname: localhost
    client:
       service-url:
@@ -22,15 +23,23 @@ spring:
                enabled: true
                lower-case-service-id: true
          routes:
-         - id: MANAGEMENT-SERVICE
-           uri: lb://MANAGEMENT-SERVICE
+         - id: management
+           uri: lb://management-service
            predicates:
-           - Path=/management-service/**
-         - id: USER-SERVICE
-           uri: lb://USER-SERVICE
+           - Path=/management/**
+         - id: user-service
+           uri: lb://user-service
            predicates:
-           - Path=/user-service/**
-         - id: ORDER-SERVICE
-             uri: lb://ORDER-SERVICE
-             predicates:
-               - Path=/order-service/**
+           - Path=/user/**
+         - id: order-service
+           uri: lb://order-service
+           predicates:
+             - Path=/order/**
+management:
+  endpoint:
+    gateway:
+      enabled: true
+  endpoints:
+    web:
+      exposure:
+        include: gateway

@@ -25,7 +25,7 @@
         <spring-cloud.version>2021.0.2</spring-cloud.version>
         <nimbus-jose.version>7.0</nimbus-jose.version>
         <commons-lang3.version>3.8.1</commons-lang3.version>
-        <swagger.version>2.9.2</swagger.version>
+        <springfox-swagger.version>3.0.0</springfox-swagger.version>
     </properties>
 
     <dependencies>
@@ -34,15 +34,20 @@
             <artifactId>jersey-apache-client4</artifactId>
             <version>1.19.4</version>
         </dependency>
+<!--         <dependency> -->
+<!--             <groupId>org.springdoc</groupId> -->
+<!--             <artifactId>springdoc-openapi-ui</artifactId> -->
+<!--             <version>1.6.8</version> -->
+<!--         </dependency> -->
+<!--         <dependency> -->
+<!--             <groupId>org.springdoc</groupId> -->
+<!--             <artifactId>springdoc-openapi-webflux-ui</artifactId> -->
+<!--             <version>1.6.8</version> -->
+<!--         </dependency> -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>${swagger.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>${swagger.version}</version>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox-swagger.version}</version>
         </dependency>
         <dependency>
 			<groupId>io.springfox</groupId>

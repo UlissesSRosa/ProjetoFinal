@@ -11,7 +11,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@Api(tags = "Management")
+@Api(tags = "Order")
 @RequestMapping(value = "v1/order")
 public class OrderResource {
 

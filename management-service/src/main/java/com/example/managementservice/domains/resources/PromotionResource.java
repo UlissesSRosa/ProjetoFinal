@@ -23,13 +23,13 @@ public class PromotionResource {
     }
 
     @PostMapping
-    public ResponseEntity<Void> create(PromotionRequestDTO promotionRequestDTO){
+    public ResponseEntity<Void> create(@RequestBody PromotionRequestDTO promotionRequestDTO){
         promotionService.create(promotionRequestDTO);
         return ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping
-    public ResponseEntity<Void> delete(Long id){
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
         promotionService.delete(id);
         return ResponseEntity.noContent().build();
     }

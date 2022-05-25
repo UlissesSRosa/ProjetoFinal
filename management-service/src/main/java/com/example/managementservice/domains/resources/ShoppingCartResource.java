@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
-@Api(tags = "Management")
+@Api(tags = "ShoppingCart")
 @RequestMapping(value = "v1/carts")
 public class ShoppingCartResource {
 

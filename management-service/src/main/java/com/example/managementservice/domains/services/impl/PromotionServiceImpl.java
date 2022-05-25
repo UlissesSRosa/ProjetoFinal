@@ -17,6 +17,7 @@ import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,8 +32,7 @@ public class PromotionServiceImpl implements PromotionService {
     }
     public Page<PromotionRequestDTO> getAll(Pageable pageable) {
         Page<PromotionEntity> promotionEntitiesPage = promotionRespository.findByIsActiveTrue(pageable);
-        return objectMapper.convertValue(promotionEntitiesPage.getContent(), new TypeReference<Page<PromotionRequestDTO>>() {
-        });
+        return promotionEntitiesPage.map(this::buildDTO);
     }
 
     public List<PromotionEntity> getActivePromotions(){
@@ -41,8 +41,7 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Transactional
     public void create(PromotionRequestDTO promotionRequestDTO) {
-        promotionRequestDTO.setPercent((promotionRequestDTO.getPercent().divide(BigDecimal.valueOf(100))));
-        promotionRespository.save(objectMapper.convertValue(promotionRequestDTO, PromotionEntity.class));
+        promotionRespository.save(buildEntity(promotionRequestDTO));
     }
 
     @Transactional

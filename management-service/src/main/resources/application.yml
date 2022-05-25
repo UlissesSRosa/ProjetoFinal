@@ -12,6 +12,9 @@ eureka:
     register-with-eureka: true
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
   application:
     name: management-service
   jpa:
